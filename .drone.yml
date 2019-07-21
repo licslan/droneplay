@@ -1,0 +1,14 @@
+workspace:
+  base: /licslan_play/resume/github
+  path: .
+
+pipeline:
+  build:
+    image: java:openjdk-8
+  environment:
+  - TZ=Asia/WuHan
+  commands:
+    - sh deploy.sh
+  when:
+    branch: [master]
+    event: [push]

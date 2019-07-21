@@ -5,7 +5,8 @@ steps:
 - name: build
   image: java:openjdk-8
   commands:
-  - sh deploy.sh
+  - mvn clean package -Dmaven.test.skip=true
+  - java -jar target/drone-0.0.1-SNAPSHOT.jar
 
 - name: integration
   image: java:openjdk-8

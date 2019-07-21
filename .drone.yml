@@ -1,39 +1,16 @@
 kind: pipeline
-name: drone
-
-workspace:
-  base: /licslan_play/resume/github/droneplay
-  path: .
+name: licslan
 
 steps:
 - name: build
-    image: java:openjdk-8
-    commands:
-    - sh deploy.sh
-  environment:
-    host:
-      from_secret: host
-    port:
-      from_secret: port
-- name: deploy
-    image: drone/licslan2
+  image: java:openjdk-8
+  commands:
+  - sh deploy.sh
+
+- name: integration
+  image: java:openjdk-8
+  commands:
+  - java -veriosn
   when:
-    status:
-    - success
-  settings:
-    host:
-      from_secret: host
-    port:
-      from_secret: port
-    username:
-      from_secret: username
-    target:
-      from_secret: deploy_path
-    source: ./*
-
-trigger:
-  branch:
-  - master
-  event:
-  - push
-
+    event:
+    - push

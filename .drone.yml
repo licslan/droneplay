@@ -1,14 +1,47 @@
+kind: pipeline
+name: drone
+
 workspace:
-  base: /licslan_play/resume/github
+  base: /licslan_play/resume/github/droneplay
   path: .
 
-pipeline:
-  build:
-    image: java:openjdk-8
-  environment:
-  - TZ=Asia/WuHan
-  commands:
+steps:
+- name: build
+  image: java:openjdk-8
+    commands:
     - sh deploy.sh
+  environment:
+    host:
+      from_secret: host
+    port:
+      from_secret: port
+    abc: abctest
+- name: deploy
+  image: drone/licslan2
   when:
-    branch: [master]
-    event: [push]
+    status:
+    - success
+  settings:
+    host:
+      from_secret: host
+    port:
+      from_secret: port
+    username:
+      from_secret: username
+    target:
+      from_secret: deploy_path
+    source: ./*
+
+volumes:
+- name: webroot
+  host:
+    path: /opt
+- name: cache
+  host:
+    path: /tmp/cache
+
+trigger:
+  branch:
+  - master
+  event:
+  - push

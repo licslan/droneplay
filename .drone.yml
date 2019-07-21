@@ -10,7 +10,7 @@ steps:
 - name: deploy
   image: java:openjdk-8
   commands:
-  - java -jar target/drone-0.0.1-SNAPSHOT.jar
+  - nohup java -jar target/drone-0.0.1-SNAPSHOT.jar &
   when:
     event:
     - push

@@ -3,15 +3,14 @@ name: licslan
 
 steps:
 - name: build
-  image: java:openjdk-8
+  image: docker.io/maven:latest
   commands:
   - mvn clean package -Dmaven.test.skip=true
-  - java -jar target/drone-0.0.1-SNAPSHOT.jar
 
-- name: integration
+- name: deploy
   image: java:openjdk-8
   commands:
-  - java -veriosn
+  - java -jar target/drone-0.0.1-SNAPSHOT.jar
   when:
     event:
     - push

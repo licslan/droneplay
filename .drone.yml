@@ -7,7 +7,7 @@ workspace:
 
 steps:
 - name: build
-  image: java:openjdk-8
+    image: java:openjdk-8
     commands:
     - sh deploy.sh
   environment:
@@ -16,7 +16,7 @@ steps:
     port:
       from_secret: port
 - name: deploy
-  image: drone/licslan2
+    image: drone/licslan2
   when:
     status:
     - success

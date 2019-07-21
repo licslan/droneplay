@@ -15,7 +15,6 @@ steps:
       from_secret: host
     port:
       from_secret: port
-    abc: abctest
 - name: deploy
   image: drone/licslan2
   when:
@@ -32,16 +31,9 @@ steps:
       from_secret: deploy_path
     source: ./*
 
-volumes:
-- name: webroot
-  host:
-    path: /opt
-- name: cache
-  host:
-    path: /tmp/cache
-
 trigger:
   branch:
   - master
   event:
   - push
+

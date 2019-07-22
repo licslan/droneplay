@@ -3,16 +3,11 @@ name: licslan
 
 
 steps:
-- name: Maven编译
+- name: Maven编译打包
   image: maven:3-jdk-8
   volumes:
   - name: cache
     path: /root/.m2
-  commands:
-    - mvn clean install
-
-- name: 制作镜像
-  image: boot:hello
   commands:
     - mvn package docker:build
 

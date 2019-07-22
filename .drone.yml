@@ -13,9 +13,6 @@ steps:
 
 - name: 制作镜像
   image: boot:hello
-  volumes:
-  - name: cache
-    path: /root/.m2
   commands:
     - mvn package docker:build
 

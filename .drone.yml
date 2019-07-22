@@ -1,16 +1,25 @@
 kind: pipeline
 name: licslan
 
-steps:
-- name: build
-  image: docker.io/maven:latest
-  commands:
-  - mvn package -Dmaven.test.skip=true
 
-- name: deploy
-  image: java:openjdk-8
+steps:
+- name: Maven编译
+  image: maven:3-jdk-8
+  volumes:
+  - name: cache
+    path: /root/.m2
   commands:
-  - nohup java -jar target/drone-0.0.1-SNAPSHOT.jar &
+    - mvn clean install
+
+- name: 制作镜像
+  image: boot:hello
+  commands:
+    - mvn package docker:build
+
+- name: 运行镜像
+  image: licslan
+  commands: 
+    - docker run -it -d --name springboot -p 7777:7777 licslan/springboot 
   when:
     event:
     - push

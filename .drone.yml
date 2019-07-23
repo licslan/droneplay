@@ -9,7 +9,7 @@ steps:
   - name: cache
     path: /root/.m2
   commands:
-    - mvn package -Dmaven.test.skip=true docker:build
+    - mvn package  -Dmaven.test.skip=true  docker:build
 
 - name: 运行镜像
   image: licslan

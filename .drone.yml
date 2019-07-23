@@ -8,12 +8,17 @@ steps:
   volumes:
   - name: cache
     path: /root/.m2
-
-- name: 运行镜像
+  commands:
+    - mvn clean install -Dmaven.test.skip=true
+- name: 制作镜像
   image: licslan
   commands:
-    - mvn clean package -Dmaven.test.skip=true  docker:build 
-    - docker run -it -d --name springboot -p 7777:8081 springio/drone
+    - mvn clean package -Dmaven.test.skip=true docker:build 
+
+- name: 运行镜像
+  image: runimages
+  commands:
+     - docker run -it -d --name springboot -p 7777:8081 springio/drone
   when:
     event:
     - push

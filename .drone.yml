@@ -1,0 +1,21 @@
+kind: pipeline
+name: licslan
+
+
+steps:
+- name: Maven编译打包
+  image: maven:3-jdk-8
+  volumes:
+  - name: cache
+    path: /root/.m2
+  commands:
+    - mvn package docker:build
+
+- name: 运行镜像
+  image: licslan
+  commands: 
+    - docker run -it -d --name springboot -p 7777:8081 licslan/springboot 
+  when:
+    event:
+    - push
+

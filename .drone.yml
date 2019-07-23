@@ -12,7 +12,7 @@ steps:
     - echo "hello docker"
 
 - name: 制作镜像
-  image: licslan
+  image: maven
   commands:
     - mvn clean package -Dmaven.test.skip=true docker:build 
 

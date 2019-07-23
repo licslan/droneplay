@@ -14,7 +14,7 @@ steps:
 - name: 运行镜像
   image: licslan
   commands: 
-    - docker run -it -d --name springboot -p 7777:8081 drone/springio
+    - docker run -it -d --name springboot -p 7777:8081 springio/drone
   when:
     event:
     - push

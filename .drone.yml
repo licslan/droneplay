@@ -9,7 +9,7 @@ steps:
   - name: cache
     path: /root/.m2
   commands:
-    - DOCKER_HOST=unix:///var/run/docker.sock mvn clean package  -Dmaven.test.skip=true  docker:build
+    - mvn clean package  -Dmaven.test.skip=true  docker:build
 
 - name: 运行镜像
   image: licslan

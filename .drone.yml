@@ -14,7 +14,7 @@ steps:
 - name: 制作镜像
   image: maven
   commands:
-    - mvn clean install dockerfile:build
+    - mvn install dockerfile:build
 
 - name: 运行镜像
   image: runimages

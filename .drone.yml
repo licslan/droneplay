@@ -23,13 +23,13 @@ steps:
   - docker build -t springio/gs-spring-boot-docker .
   - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
 
-#services:
-#- name: docker
-#  image: docker:dind
-#  privileged: true
-#  volumes:
-#  - name: dockersock
-#    path: /var/run
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run
 
   when:
     event:

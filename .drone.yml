@@ -5,10 +5,10 @@ steps:
 - name: Maven编译打包
   image: maven:3-jdk-8
   ports: 
-  - 7777:8080
+    - 7777:8080
   volumes:
-  - name: cache
-    path: /root/.m2
+    - name: cache
+      path: /root/.m2
   commands:
     - echo "hello docker"
     - mvn clean install -Dmaven.test.skip=true

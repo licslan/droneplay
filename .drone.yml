@@ -15,7 +15,7 @@ steps:
 - name: 制作镜像
   image: maven
   commands:
-    - docker build -t springio/gs-spring-boot-docker .
+    - dockerfile:build
 
 - name: 运行镜像
   image: springio/gs-spring-boot-docker

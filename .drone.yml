@@ -10,14 +10,15 @@ steps:
     path: /root/.m2
   commands:
     - echo "hello docker"
+    - mvn clean install -Dmaven.test.skip=true
 
 - name: 制作镜像
   image: maven
   commands:
-    - mvn install dockerfile:build
+    - docker build -t springio/gs-spring-boot-docker .
 
 - name: 运行镜像
-  image: runimages
+  image: springio/gs-spring-boot-docker
   commands:
      - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
   when:

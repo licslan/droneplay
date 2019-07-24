@@ -21,7 +21,7 @@ steps:
   - sleep 5 # give docker enough time to start
   - docker ps -a
   - docker build -t springio/gs-spring-boot-docker:v1 .
-  - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
+  - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker:v1
 
 services:
 - name: docker

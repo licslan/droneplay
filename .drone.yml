@@ -22,6 +22,11 @@ steps:
   - docker ps -a
   - docker build -t springio/gs-spring-boot-docker:v1 .
 
+- name: 运行镜像
+  image: springio/gs-spring-boot-docker
+  commands:
+     - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
+
 services:
 - name: docker
   image: docker:dind
@@ -34,10 +39,7 @@ volumes:
 - name: dockersock
   temp: {}
 
-- name: 运行镜像
-  image: springio/gs-spring-boot-docker
-  commands:
-     - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
+
   when:
     event:
     - push

@@ -12,7 +12,7 @@ steps:
 - name: 制作镜像
   image: docker:dind
   commands:
-    - dockerfile:build 
+    - docker build -t springio/gs-spring-boot-docker:v1 . 
 
 - name: 运行镜像
   image: springio/gs-spring-boot-docker

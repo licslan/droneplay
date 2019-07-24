@@ -12,7 +12,7 @@ steps:
     - mvn clean install
 
 
-- name: 制作镜像
+- name: 制作镜像&运行镜像
   image: docker:dind
   volumes:
   - name: dockersock
@@ -21,11 +21,7 @@ steps:
   - sleep 5 # give docker enough time to start
   - docker ps -a
   - docker build -t springio/gs-spring-boot-docker:v1 .
-
-- name: 运行镜像
-  image: springio/gs-spring-boot-docker
-  commands:
-     - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
+  - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
 
 services:
 - name: docker

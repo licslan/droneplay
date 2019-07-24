@@ -14,12 +14,12 @@ steps:
 - name: 制作镜像
   image: maven
   commands:
-    - mvn install package -Dmaven.test.skip=true  dockerfile:build 
+    - ./mvnw install dockerfile:build
 
 - name: 运行镜像
   image: runimages
   commands:
-     - docker run -it -d --name springboot -p 7777:8080 springio/drone
+     - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
   when:
     event:
     - push

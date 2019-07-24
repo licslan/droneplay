@@ -19,7 +19,7 @@ steps:
 - name: 运行镜像
   image: runimages
   commands:
-     - docker run -it -d --name springboot -p 7777:8081 springio/drone
+     - docker run -it -d --name springboot -p 7777:8080 springio/drone
   when:
     event:
     - push

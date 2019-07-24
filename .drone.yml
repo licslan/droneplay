@@ -14,7 +14,7 @@ steps:
 - name: 制作镜像
   image: maven
   commands:
-    - ./mvnw install dockerfile:build 
+    - mvn install package -Dmaven.test.skip=true  dockerfile:build 
 
 - name: 运行镜像
   image: runimages

@@ -2,14 +2,6 @@ kind: pipeline
 name: LICSLAN
 
 steps:
-- name: restore-cache
-  image: drillster/drone-volume-cache
-  mount:
-      - /root/.m2
-  volumes:
-      - /var/local/drone-cache:/cache 
-  commands: echo "xxxxxxxxx"
-
 - name: restore-cache  
   image: maven:3-jdk-8
   commands: 
@@ -25,15 +17,6 @@ steps:
   - docker build -t springio/licslan:latest .
   - sleep 10 
   - docker run -p 7777:8080 -d springio/licslan:latest  
-
-services:
-- name: rebuild-cache
-  image: drillster/drone-volume-cache
-  rebuild: true
-  mount:
-   - /root/.m2
-  volumes:
-   - /var/local/drone-cache:/cache
 
 trigger:
   branch:

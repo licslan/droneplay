@@ -2,15 +2,20 @@ kind: pipeline
 name: LICSLAN
 
 steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  mount:
+      - /root/.m2
+  volumes:
+      # 这里使用了 volumes 属性，需要开启仓库受信任选项
+      - /var/local/drone-cache:/cache 
+
+
 - name: restore-cache  
-  image: maven:3-jdk-8 
-  settings:  
-    restore: true  
-    mount:  
-      - mvn clean install -Dmaven.test.skip=true
-  volumes:  
-    - name: cache  
-      path: /cache
+  image: maven:3-jdk-8
+  commands: 
+    - mvn clean install -Dmaven.test.skip=true
+
 
 - name: build images  
   image: plugins/docker
@@ -23,10 +28,15 @@ steps:
   - docker run -p 7777:8080 -d springio/licslan:latest  
 
 
-volumes:  
-  - name: cache  
-    host:  
-      path: /tmp/cache
+ rebuild-cache:
+   # 使用 cache 插件缓存 vendor 目录
+   image: drillster/drone-volume-cache
+   # 构建缓存参数
+   rebuild: true
+   mount:
+   - /root/.m2
+   volumes:
+   - /var/local/drone-cache:/cache
 
 trigger:
   branch:

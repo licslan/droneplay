@@ -27,8 +27,7 @@ steps:
   - sleep 10 
   - docker run -p 7777:8080 -d springio/licslan:latest  
 
-
- rebuild-cache:
+- name: rebuild-cache
    # 使用 cache 插件缓存 vendor 目录
    image: drillster/drone-volume-cache
    # 构建缓存参数

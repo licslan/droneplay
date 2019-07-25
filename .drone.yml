@@ -8,16 +8,42 @@ steps:
     - mvn clean install -Dmaven.test.skip=true
 
 
-- name: build images  
-  image: plugins/docker
+#- name: build images  
+#  image: plugins/docker
+#  commands:
+#  - sleep 5 # give docker enough time to start
+#  - docker -v
+#  - nohup dockerd &
+#  - sleep 10
+#  - docker build -t springio/licslan:latest .
+#  - sleep 10 
+#  - docker run -p 7777:8080 -d springio/licslan:latest  
+
+- name: build images
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run
   commands:
   - sleep 5 # give docker enough time to start
-  - docker -v
-  - nohup dockerd &
-  - sleep 10
+  - docker ps -a
   - docker build -t springio/licslan:latest .
-  - sleep 10 
-  - docker run -p 7777:8080 -d springio/licslan:latest  
+  - sleep 10
+  - docker run -p 7777:8080 -d springio/licslan:latest
+
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
+
+
 
 trigger:
   branch:

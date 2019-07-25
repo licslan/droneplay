@@ -28,8 +28,16 @@ steps:
   - sleep 5 # give docker enough time to start
   - docker ps -a
   - docker build -t springio/licslan:latest .
-  - sleep 10
+#  - sleep 10
+#  - docker run -p 80:8080 -d springio/licslan:latest
+
+- name: run images
+  image: plugins/docker
+  commands: 
+  - nohup dockerd
   - docker run -p 80:8080 -d springio/licslan:latest
+
+
 
 services:
 - name: docker

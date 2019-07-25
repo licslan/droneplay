@@ -1,39 +1,34 @@
 kind: pipeline
-name: licslan
+name: LICSLAN
 
-steps:
-- name: Maven编译打包
-  image: maven:3-jdk-8
-  volumes:
-    - name: cache
-      path: /root/.m2
+- name: restore-cache  
+  image: maven:3-jdk-8 
+  settings:  
+    restore: true  
+    mount:  
+      - mvn clean install -Dmaven.test.skip=true
+  volumes:  
+    - name: cache  
+      path: /cache
+
+- name: build images  
+  image: plugins/docker
   commands:
-    - echo "hello docker"
-    - mvn clean install -Dmaven.test.skip=true
-    - java -jar target/gs-spring-boot-docker-0.1.0.jar &
+  - sleep 5 # give docker enough time to start
+  - docker -v
+  - nohup dockerd &
+  - docker build -t springio/licslan:latest .
+  - sleep 10 
+  - docker run -p 7777:8080 -d springio/licslan:latest  
 
-#- name: 制作镜像&运行镜像
-#  image: docker:dind
-#  volumes:
-#  - name: dockersock
-#    path: /var/run
-#  commands:
-#  - sleep 5 # give docker enough time to start
-#  - docker ps -a
-#  - docker build -t springio/gs-spring-boot-docker .
-#  - docker run -it -d --name springboot -p 7777:8080 springio/gs-spring-boot-docker
 
-#services:
-#- name: docker
-#  image: docker:dind
-#  privileged: true
-#  volumes:
-#  - name: dockersock
-#    path: /var/run
-#volumes:
-#- name: dockersock
-#  temp: {}
-  when:
-    event:
-    - push
+volumes:  
+  - name: cache  
+    host:  
+      path: /tmp/cache
 
+trigger:
+  branch:
+  - master
+  event:
+  - push

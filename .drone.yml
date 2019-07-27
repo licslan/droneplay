@@ -14,9 +14,11 @@ steps:
     path: /var/run/docker.sock
   commands:
   - docker ps -a
+  - docker stop `docker ps -a| grep x | awk '{print $1}' `
+  - docker rm   `docker ps -a| grep x | awk '{print $1}' `
   - docker build -t springio/licslan:latest .
   - sleep 10
-  - docker run -p 80:8080 -d springio/licslan:latest
+  - docker run --name x -p 80:8080 -d springio/licslan:latest
 
 volumes:
 - name: dockersock
